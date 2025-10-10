@@ -24,6 +24,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+tunnel*.log
+build*.log
+final*.log
 
 # local env files
 .env*.local
@@ -35,18 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Windows reserved device filenames
-NUL
-CON
-PRN
-AUX
-
-# Windows reserved device filenames
-NUL
-CON
-PRN
-AUX
 
 # Windows reserved device filenames
 NUL

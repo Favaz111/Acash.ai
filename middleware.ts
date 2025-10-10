@@ -259,8 +259,25 @@ export async function middleware(request: NextRequest) {
 
   // Add CORS headers for API routes
   if (pathname.startsWith('/api/')) {
+    // Define allowed origins
+    const allowedOrigins = [
+      'https://acash.ai',
+      'https://www.acash.ai',
+      process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : null,
+    ].filter(Boolean) as string[];
+
+    const origin = request.headers.get('origin');
+
+    // Set CORS headers with origin validation
     response.headers.set('Access-Control-Allow-Credentials', 'true');
-    response.headers.set('Access-Control-Allow-Origin', '*'); // Adjust in production
+
+    if (origin && allowedOrigins.includes(origin)) {
+      response.headers.set('Access-Control-Allow-Origin', origin);
+    } else if (process.env.NODE_ENV === 'development') {
+      // في بيئة التطوير، نسمح بجميع الأصول
+      response.headers.set('Access-Control-Allow-Origin', '*');
+    }
+
     response.headers.set('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     response.headers.set(
       'Access-Control-Allow-Headers',

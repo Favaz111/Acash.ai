@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { Target, AlertCircle, MessageSquare, ArrowLeft, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -47,7 +46,7 @@ function DashboardContent() {
 
   // Authentication & Data Fetching
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted) return undefined;
 
     const auth = getAuthInstance();
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {

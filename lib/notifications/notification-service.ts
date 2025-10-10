@@ -70,14 +70,14 @@ class NotificationService {
         priority: 'high',
         title: `Payment Due: ${debt.name}`,
         titleAr: `دفعة مستحقة: ${debt.nameAr || debt.name}`,
-        message: `Your payment of ${debt.minimumPayment.toLocaleString()} SAR is due soon.`,
-        messageAr: `دفعتك بمبلغ ${debt.minimumPayment.toLocaleString()} ر.س مستحقة قريباً.`,
+        message: `Your payment of ${debt.minimumPayment?.toLocaleString() || '0'} SAR is due soon.`,
+        messageAr: `دفعتك بمبلغ ${debt.minimumPayment?.toLocaleString() || '0'} ر.س مستحقة قريباً.`,
         actionUrl: `/dashboard/debts/${debt.id}`,
         actionLabel: 'View Debt',
         actionLabelAr: 'عرض الدين',
         icon: '💳',
         color: '#ef4444',
-        metadata: { debtId: debt.id, amount: debt.minimumPayment },
+        metadata: { debtId: debt.id, amount: debt.minimumPayment || 0 },
       }),
     });
 
@@ -85,12 +85,12 @@ class NotificationService {
     this.rules.push({
       type: 'budget_warning',
       condition: (budget: BudgetCategory) => {
-        const percentage = (budget.spent / budget.allocated) * 100;
+        const percentage = ((budget.spent || 0) / budget.allocated) * 100;
         return percentage >= 80 && percentage < 100;
       },
       priority: 'medium',
       template: (budget: BudgetCategory) => {
-        const percentage = Math.round((budget.spent / budget.allocated) * 100);
+        const percentage = Math.round(((budget.spent || 0) / budget.allocated) * 100);
         return {
           type: 'budget_warning',
           priority: 'medium',
@@ -112,11 +112,11 @@ class NotificationService {
     this.rules.push({
       type: 'budget_exceeded',
       condition: (budget: BudgetCategory) => {
-        return budget.spent > budget.allocated;
+        return (budget.spent || 0) > budget.allocated;
       },
       priority: 'high',
       template: (budget: BudgetCategory) => {
-        const overspent = budget.spent - budget.allocated;
+        const overspent = (budget.spent || 0) - budget.allocated;
         return {
           type: 'budget_exceeded',
           priority: 'high',
@@ -171,7 +171,7 @@ class NotificationService {
     this.rules.push({
       type: 'debt_payoff',
       condition: (debt: DebtItem) => {
-        return debt.remainingBalance === 0 || debt.currentBalance === 0;
+        return debt.currentBalance === 0;
       },
       priority: 'high',
       template: (debt: DebtItem) => ({

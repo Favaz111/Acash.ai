@@ -9,7 +9,12 @@ import { AnalyticsProvider } from '@/components/providers/AnalyticsProvider';
 import { AppLayout } from '@/components/layout/AppLayout';
 import '../globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['Arial', 'sans-serif'],
+  adjustFontFallback: false
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

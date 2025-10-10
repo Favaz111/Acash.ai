@@ -258,51 +258,31 @@ function generateAdvancedRecommendations(data: AdvancedAssessmentData, score: nu
   // 1. أولوية الديون
   const debtRatio = data.totalDebts / (data.monthlyIncome * 12);
   if (debtRatio > DEBT_TO_INCOME_RATIOS.ACCEPTABLE) {
-    recommendations.push({
-      priority: 'high',
-      text: 'استخدم أداة إدارة الديون لوضع خطة سداد فعالة',
-      tool: 'debt-management',
-    });
+    recommendations.push('استخدم أداة إدارة الديون لوضع خطة سداد فعالة');
   }
 
   // 2. أولوية صندوق الطوارئ
   if (!data.hasEmergencyFund || data.emergencyFundMonths < EMERGENCY_FUND_CRITERIA.MIN_MONTHS) {
-    recommendations.push({
-      priority: 'high',
-      text: `ابني صندوق طوارئ يكفي ${EMERGENCY_FUND_CRITERIA.MIN_MONTHS} أشهر على الأقل`,
-      tool: 'emergency-fund',
-    });
+    recommendations.push(`ابني صندوق طوارئ يكفي ${EMERGENCY_FUND_CRITERIA.MIN_MONTHS} أشهر على الأقل`);
   }
 
   // 3. تحسين الميزانية
   const savingsRate = (data.monthlyIncome - data.monthlyExpenses) / data.monthlyIncome;
   if (savingsRate < IDEAL_BUDGET_RATIOS.SAVINGS) {
-    recommendations.push({
-      priority: 'medium',
-      text: 'راجع ميزانيتك لزيادة معدل الادخار إلى 20%',
-      tool: 'smart-budget',
-    });
+    recommendations.push('راجع ميزانيتك لزيادة معدل الادخار إلى 20%');
   }
 
   // 4. بناء الثروة
   if (data.investmentExperience === 'none' && data.totalSavings > data.monthlyIncome * 6) {
-    recommendations.push({
-      priority: 'medium',
-      text: 'ابدأ رحلة الاستثمار لتنمية ثروتك',
-      tool: 'investment-planner',
-    });
+    recommendations.push('ابدأ رحلة الاستثمار لتنمية ثروتك');
   }
 
   // 5. التخطيط للحرية المالية
   if (score >= HEALTH_SCORE_LEVELS.GOOD.min) {
-    recommendations.push({
-      priority: 'low',
-      text: 'خطط للحرية المالية والاستقلال',
-      tool: 'financial-freedom',
-    });
+    recommendations.push('خطط للحرية المالية والاستقلال');
   }
 
-  return recommendations as any;
+  return recommendations;
 }
 
 /**

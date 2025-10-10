@@ -196,7 +196,7 @@ export function getGoalsProgressData(goals: FinancialGoal[]): {
 
   const timeline = goals.map((goal) => {
     const startDate = new Date(goal.startDate);
-    const endDate = new Date(goal.deadline);
+    const endDate = new Date(goal.targetDate);
     const monthsDiff = Math.ceil(
       (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
     );

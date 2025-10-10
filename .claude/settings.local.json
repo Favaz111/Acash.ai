@@ -41,7 +41,13 @@
       "Bash(xargs kill:*)",
       "Bash(xargs -r kill -9)",
       "Bash(xargs -r kill -9 2)",
-      "Bash(/dev/null echo \"✓ All processes killed\")"
+      "Bash(/dev/null echo \"✓ All processes killed\")",
+      "Read(//c/Users/USER/**)",
+      "Bash(npx kill-port:*)",
+      "Bash(tasklist)",
+      "Bash(Get-Process -Name node -ErrorAction SilentlyContinue)",
+      "Bash(Stop-Process -Force -ErrorAction SilentlyContinue)",
+      "Bash(npm start)"
     ],
     "deny": [],
     "ask": []
