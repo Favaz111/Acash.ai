@@ -1,6 +1,7 @@
 # 🚀 دليل النشر - Acash.ai
 
 ## 📋 المحتويات
+
 1. [نشر على Vercel](#نشر-على-vercel)
 2. [إعداد Firebase](#إعداد-firebase)
 3. [متغيرات البيئة](#متغيرات-البيئة)
@@ -78,12 +79,12 @@ Firebase Console → Build → Storage → Get Started
 // سجل التطبيق ثم انسخ المعلومات
 
 const firebaseConfig = {
-  apiKey: "AIzaSy...",
-  authDomain: "acash-ai.firebaseapp.com",
-  projectId: "acash-ai",
-  storageBucket: "acash-ai.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
+  apiKey: 'AIzaSy...',
+  authDomain: 'acash-ai.firebaseapp.com',
+  projectId: 'acash-ai',
+  storageBucket: 'acash-ai.appspot.com',
+  messagingSenderId: '123456789',
+  appId: '1:123456789:web:abc123',
 };
 ```
 
@@ -122,6 +123,7 @@ Vercel Dashboard → Project Settings → Environment Variables
 ## 💻 التشغيل المحلي
 
 ### المتطلبات
+
 - Node.js 18+
 - npm أو yarn
 - Git
@@ -254,6 +256,7 @@ Vercel يوفر SSL مجاناً لكل النطاقات
 ## 📞 الدعم
 
 إذا واجهت أي مشكلة:
+
 1. راجع [Vercel Docs](https://vercel.com/docs)
 2. راجع [Firebase Docs](https://firebase.google.com/docs)
 3. افتح Issue على GitHub

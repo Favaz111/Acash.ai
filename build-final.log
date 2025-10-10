@@ -1,0 +1,51 @@
+ ⚠ Linting is disabled.
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+
+
+Source path: C:\acash.ai\app\globals.css
+Setting up new context...
+Finding changed files: 9.882ms
+Reading changed files: 244.295ms
+Sorting candidates: 7.19ms
+Generate rules: 97.824ms
+Build stylesheet: 2.271ms
+Potential classes:  9923
+Active contexts:  1
+JIT TOTAL: 525.342ms
+
+
+ ⚠ Compiled with warnings in 16.7s
+
+./lib/firebase/auth.ts
+export 'User' (reexported as 'User') was not found in 'firebase/auth' (possible exports: ActionCodeOperation, ActionCodeURL, AuthCredential, AuthErrorCodes, EmailAuthCredential, EmailAuthProvider, FacebookAuthProvider, FactorId, GithubAuthProvider, GoogleAuthProvider, OAuthCredential, OAuthProvider, OperationType, PhoneAuthCredential, PhoneAuthProvider, PhoneMultiFactorGenerator, ProviderId, RecaptchaVerifier, SAMLAuthProvider, SignInMethod, TotpMultiFactorGenerator, TotpSecret, TwitterAuthProvider, applyActionCode, beforeAuthStateChanged, browserCookiePersistence, browserLocalPersistence, browserPopupRedirectResolver, browserSessionPersistence, checkActionCode, confirmPasswordReset, connectAuthEmulator, createUserWithEmailAndPassword, debugErrorMap, deleteUser, fetchSignInMethodsForEmail, getAdditionalUserInfo, getAuth, getIdToken, getIdTokenResult, getMultiFactorResolver, getRedirectResult, inMemoryPersistence, indexedDBLocalPersistence, initializeAuth, initializeRecaptchaConfig, isSignInWithEmailLink, linkWithCredential, linkWithPhoneNumber, linkWithPopup, linkWithRedirect, multiFactor, onAuthStateChanged, onIdTokenChanged, parseActionCodeURL, prodErrorMap, reauthenticateWithCredential, reauthenticateWithPhoneNumber, reauthenticateWithPopup, reauthenticateWithRedirect, reload, revokeAccessToken, sendEmailVerification, sendPasswordResetEmail, sendSignInLinkToEmail, setPersistence, signInAnonymously, signInWithCredential, signInWithCustomToken, signInWithEmailAndPassword, signInWithEmailLink, signInWithPhoneNumber, signInWithPopup, signInWithRedirect, signOut, unlink, updateCurrentUser, updateEmail, updatePassword, updatePhoneNumber, updateProfile, useDeviceLanguage, validatePassword, verifyBeforeUpdateEmail, verifyPasswordResetCode)
+
+Import trace for requested module:
+./lib/firebase/auth.ts
+./components/providers/AuthProvider.tsx
+
+./lib/firebase/auth.ts
+export 'User' (reexported as 'User') was not found in 'firebase/auth' (possible exports: ActionCodeOperation, ActionCodeURL, AuthCredential, AuthErrorCodes, EmailAuthCredential, EmailAuthProvider, FacebookAuthProvider, FactorId, GithubAuthProvider, GoogleAuthProvider, OAuthCredential, OAuthProvider, OperationType, PhoneAuthCredential, PhoneAuthProvider, PhoneMultiFactorGenerator, ProviderId, RecaptchaVerifier, SAMLAuthProvider, SignInMethod, TotpMultiFactorGenerator, TotpSecret, TwitterAuthProvider, applyActionCode, beforeAuthStateChanged, browserCookiePersistence, browserLocalPersistence, browserPopupRedirectResolver, browserSessionPersistence, checkActionCode, confirmPasswordReset, connectAuthEmulator, createUserWithEmailAndPassword, debugErrorMap, deleteUser, fetchSignInMethodsForEmail, getAdditionalUserInfo, getAuth, getIdToken, getIdTokenResult, getMultiFactorResolver, getRedirectResult, inMemoryPersistence, indexedDBLocalPersistence, initializeAuth, initializeRecaptchaConfig, isSignInWithEmailLink, linkWithCredential, linkWithPhoneNumber, linkWithPopup, linkWithRedirect, multiFactor, onAuthStateChanged, onIdTokenChanged, parseActionCodeURL, prodErrorMap, reauthenticateWithCredential, reauthenticateWithPhoneNumber, reauthenticateWithPopup, reauthenticateWithRedirect, reload, revokeAccessToken, sendEmailVerification, sendPasswordResetEmail, sendSignInLinkToEmail, setPersistence, signInAnonymously, signInWithCredential, signInWithCustomToken, signInWithEmailAndPassword, signInWithEmailLink, signInWithPhoneNumber, signInWithPopup, signInWithRedirect, signOut, unlink, updateCurrentUser, updateEmail, updatePassword, updatePhoneNumber, updateProfile, useDeviceLanguage, validatePassword, verifyBeforeUpdateEmail, verifyPasswordResetCode)
+
+Import trace for requested module:
+./lib/firebase/auth.ts
+./components/providers/AuthProvider.tsx
+
+   Checking validity of types ...
+Failed to compile.
+
+./lib/firebase/auth.ts:11:31
+Type error: 'Timestamp' is declared but its value is never read.
+
+[0m [90m  9 |[39m   type [33mUnsubscribe[39m[33m,[39m
+ [90m 10 |[39m } [36mfrom[39m [32m'firebase/auth'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 11 |[39m [36mimport[39m { doc[33m,[39m setDoc[33m,[39m getDoc[33m,[39m [33mTimestamp[39m } [36mfrom[39m [32m'firebase/firestore'[39m[33m;[39m
+ [90m    |[39m                               [31m[1m^[22m[39m
+ [90m 12 |[39m [36mimport[39m { auth[33m,[39m db } [36mfrom[39m [32m'./config'[39m[33m;[39m
+ [90m 13 |[39m [36mimport[39m { createUser[33m,[39m updateUser[33m,[39m updateLastLogin } [36mfrom[39m [32m'./db'[39m[33m;[39m
+ [90m 14 |[39m[0m
+Next.js build worker exited with code: 1 and signal: null

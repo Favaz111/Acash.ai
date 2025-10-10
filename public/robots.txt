@@ -1,0 +1,26 @@
+# Acash.ai Robots.txt - Phase One
+User-agent: *
+
+# Allow general access
+Allow: /
+
+# Disallow premium/non-existent routes (Phase Two)
+Disallow: /ar/pricing
+Disallow: /en/pricing
+Disallow: /ar/subscription
+Disallow: /en/subscription
+Disallow: /ar/advisor
+Disallow: /en/advisor
+Disallow: /ar/billing
+Disallow: /en/billing
+Disallow: /ar/checkout
+Disallow: /en/checkout
+Disallow: /ar/dashboard/advanced
+Disallow: /en/dashboard/advanced
+
+# Allow search engines to access all free tools
+Allow: /ar/tools
+Allow: /en/tools
+
+# Sitemap location
+Sitemap: https://acash.ai/sitemap.xml

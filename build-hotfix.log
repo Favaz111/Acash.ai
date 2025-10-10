@@ -1,0 +1,310 @@
+
+> acash-ai@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+
+
+Source path: c:\acash.ai\app\globals.css
+Setting up new context...
+Finding changed files: 10.967ms
+Reading changed files: 177.964ms
+Sorting candidates: 7.827ms
+Generate rules: 109.337ms
+Build stylesheet: 2.333ms
+Potential classes:  10248
+Active contexts:  1
+JIT TOTAL: 485.715ms
+
+
+ ✓ Compiled successfully in 5.7s
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./app/tools/budget/page.tsx
+610:1  Warning: Delete `⏎`  prettier/prettier
+
+./app/tools/debt/page.tsx
+20:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+43:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+44:16  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+46:13  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+202:6  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+267:6  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+380:85  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+381:24  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+527:11  Warning: Delete `············`  prettier/prettier
+528:1  Warning: Replace `························` with `············`  prettier/prettier
+529:1  Warning: Delete `············`  prettier/prettier
+808:68  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+857:54  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+1032:61  Warning: Replace `أدخل·معلومات·الدين·واضغط·&quot;احسب&quot;` with `⏎····················أدخل·معلومات·الدين·واضغط·&quot;احسب&quot;⏎··················`  prettier/prettier
+
+./app/tools/emergency/page.tsx
+21:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+177:3  Warning: Delete `⏎··`  prettier/prettier
+665:26  Warning: Replace `·onClick={handleDownloadPDF}·className="sm:w-auto·bg-green-600·hover:bg-green-700"` with `⏎····················onClick={handleDownloadPDF}⏎····················className="sm:w-auto·bg-green-600·hover:bg-green-700"⏎··················`  prettier/prettier
+
+./app/tools/zakat/page.tsx
+19:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+163:36  Warning: Replace `(⏎··················<p·className="text-sm·text-red-600·mt-1">{errors['cash']}</p>⏎················)` with `<p·className="text-sm·text-red-600·mt-1">{errors['cash']}</p>`  prettier/prettier
+180:36  Warning: Replace `(⏎··················<p·className="text-sm·text-red-600·mt-1">{errors['gold']}</p>⏎················)` with `<p·className="text-sm·text-red-600·mt-1">{errors['gold']}</p>`  prettier/prettier
+
+./app/web-vitals.tsx
+9:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/[locale]/admin/page.tsx
+37:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/[locale]/assessment/quick/page.tsx
+29:38  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+70:33  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+71:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+72:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+73:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+74:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+222:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+223:65  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/[locale]/auth/login/page.tsx
+25:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+39:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/[locale]/auth/register/page.tsx
+42:19  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/[locale]/contact/page.tsx
+93:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/[locale]/dashboard/page.tsx
+27:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+28:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+159:43  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+160:45  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+161:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/[locale]/profile/page.tsx
+286:54  Warning: Replace `⏎··················النسخة·المميزة·قريباً·-·ابقَ·على·اطلاع!⏎················` with `النسخة·المميزة·قريباً·-·ابقَ·على·اطلاع!`  prettier/prettier
+
+./app/[locale]/tools/loan/page.tsx
+389:34  Warning: Replace `<StatusIcon·className={`w-6·h-6·${getStatusInfo(results.status).color}`}·/>` with `(⏎····························<StatusIcon⏎······························className={`w-6·h-6·${getStatusInfo(results.status).color}`}⏎····························/>⏎··························)`  prettier/prettier
+468:66  Warning: Replace `{formatCurrency(row.principal)}` with `⏎··························{formatCurrency(row.principal)}⏎························`  prettier/prettier
+
+./app/[locale]/tools/retirement/page.tsx
+22:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+98:28  Warning: Delete `⏎·····`  prettier/prettier
+215:21  Warning: Insert `⏎·········`  prettier/prettier
+222:21  Warning: Insert `⏎·········`  prettier/prettier
+246:21  Warning: Insert `⏎·········`  prettier/prettier
+253:1  Warning: Delete `⏎··`  prettier/prettier
+481:32  Warning: Replace `<StatusIcon·className={`w-6·h-6·${getStatusInfo(results.status).color}`}·/>` with `(⏎··························<StatusIcon⏎····························className={`w-6·h-6·${getStatusInfo(results.status).color}`}⏎··························/>⏎························)`  prettier/prettier
+540:56  Warning: Insert `⏎··························`  prettier/prettier
+617:24  Warning: Replace `·onClick={handleDownloadPDF}·className="sm:w-auto·bg-green-600·hover:bg-green-700"` with `⏎··················onClick={handleDownloadPDF}⏎··················className="sm:w-auto·bg-green-600·hover:bg-green-700"⏎················`  prettier/prettier
+
+./app/[locale]/tools/roi/page.tsx
+23:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+77:29  Warning: Delete `⏎·····`  prettier/prettier
+170:21  Warning: Insert `⏎·········`  prettier/prettier
+177:21  Warning: Insert `⏎·········`  prettier/prettier
+184:1  Warning: Delete `⏎··`  prettier/prettier
+365:32  Warning: Replace `<StatusIcon·className={`w-8·h-8·${getStatusInfo(results.status).color}`}·/>` with `(⏎··························<StatusIcon⏎····························className={`w-8·h-8·${getStatusInfo(results.status).color}`}⏎··························/>⏎························)`  prettier/prettier
+380:39  Warning: Replace `·className={`w-5·h-5·${results.roiPercentage·>=·0·?·'text-green-600'·:·'text-red-600'}`}` with `⏎··························className={`w-5·h-5·${results.roiPercentage·>=·0·?·'text-green-600'·:·'text-red-600'}`}⏎·······················`  prettier/prettier
+381:27  Warning: Replace `·className={`text-3xl·font-bold·${results.roiPercentage·>=·0·?·'text-green-600'·:·'text-red-600'}`}` with `⏎··························className={`text-3xl·font-bold·${results.roiPercentage·>=·0·?·'text-green-600'·:·'text-red-600'}`}⏎························`  prettier/prettier
+382:66  Warning: Insert `⏎··························`  prettier/prettier
+387:25  Warning: Replace `·className={`p-4·border-2·rounded-lg·${results.profit·>=·0·?·'bg-green-50·border-green-200'·:·'bg-red-50·border-red-200'}`}` with `⏎······················className={`p-4·border-2·rounded-lg·${results.profit·>=·0·?·'bg-green-50·border-green-200'·:·'bg-red-50·border-red-200'}`}⏎····················`  prettier/prettier
+392:36  Warning: Replace `·className={`w-5·h-5·${results.profit·>=·0·?·'text-green-600'·:·'text-red-600'}`}` with `⏎··························className={`w-5·h-5·${results.profit·>=·0·?·'text-green-600'·:·'text-red-600'}`}⏎·······················`  prettier/prettier
+393:27  Warning: Replace `·className={`text-2xl·font-bold·${results.profit·>=·0·?·'text-green-600'·:·'text-red-600'}`}` with `⏎··························className={`text-2xl·font-bold·${results.profit·>=·0·?·'text-green-600'·:·'text-red-600'}`}⏎························`  prettier/prettier
+394:59  Warning: Insert `⏎··························`  prettier/prettier
+403:27  Warning: Replace `·className={`text-2xl·font-bold·${getAnnualizedReturnColor(results.annualizedReturn)}`}` with `⏎··························className={`text-2xl·font-bold·${getAnnualizedReturnColor(results.annualizedReturn)}`}⏎························`  prettier/prettier
+404:69  Warning: Insert `⏎··························`  prettier/prettier
+495:24  Warning: Replace `·onClick={handleDownloadPDF}·className="sm:w-auto·bg-green-600·hover:bg-green-700"` with `⏎··················onClick={handleDownloadPDF}⏎··················className="sm:w-auto·bg-green-600·hover:bg-green-700"⏎················`  prettier/prettier
+
+./app/[locale]/tools/savings/page.tsx
+100:28  Warning: Insert `⏎·······`  prettier/prettier
+101:33  Warning: Insert `⏎·······`  prettier/prettier
+128:36  Warning: Replace `⏎····result:·SavingsResult,⏎····income:·number⏎··` with `result:·SavingsResult,·income:·number`  prettier/prettier
+430:32  Warning: Replace `<StatusIcon·className={`w-6·h-6·${getStatusInfo(results.status).color}`}·/>` with `(⏎··························<StatusIcon⏎····························className={`w-6·h-6·${getStatusInfo(results.status).color}`}⏎··························/>⏎························)`  prettier/prettier
+
+./app/[locale]/tools/zakat/page.tsx
+9:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+10:10  Warning: 'ZakatCalculatorSchema' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+12:1  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+13:10  Warning: 'formatCurrency' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+39:3  Warning: Delete `⏎··`  prettier/prettier
+72:16  Warning: Replace `·href="/tools"·className="flex·items-center·gap-2·text-gray-700·hover:text-primary·transition-colors"` with `⏎············href="/tools"⏎············className="flex·items-center·gap-2·text-gray-700·hover:text-primary·transition-colors"⏎··········`  prettier/prettier
+98:50  Warning: Replace `⏎··············احسب·زكاة·أموالك·بدقة·وفقاً·للشريعة·الإسلامية⏎············` with `احسب·زكاة·أموالك·بدقة·وفقاً·للشريعة·الإسلامية`  prettier/prettier
+111:34  Warning: Replace `⏎··················أدخل·قيمة·أموالك·النقدية·والمعادن·الثمينة·والأصول⏎················` with `أدخل·قيمة·أموالك·النقدية·والمعادن·الثمينة·والأصول`  prettier/prettier
+178:34  Warning: Replace `⏎··················بناءً·على·البيانات·المدخلة·وحسب·الشريعة·الإسلامية⏎················` with `بناءً·على·البيانات·المدخلة·وحسب·الشريعة·الإسلامية`  prettier/prettier
+197:1  Warning: Delete `························`  prettier/prettier
+200:1  Warning: Delete `························`  prettier/prettier
+209:98  Warning: Insert `وفي`  prettier/prettier
+210:24  Warning: Delete `·وفي`  prettier/prettier
+216:28  Warning: Replace `·onClick={handleDownloadPDF}·disabled={zakatAmount·===·0}·className="w-full·mt-4"` with `⏎······················onClick={handleDownloadPDF}⏎······················disabled={zakatAmount·===·0}⏎······················className="w-full·mt-4"⏎····················`  prettier/prettier
+221:57  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+221:69  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+
+./components/dashboard/FinancialChart.tsx
+25:9  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+104:32  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/home/HomePageClient.tsx
+78:20  Warning: Replace `·size="lg"·asChild·className="w-full·sm:w-auto·shadow-lg·hover:shadow-xl·transition-all"` with `⏎··············size="lg"⏎··············asChild⏎··············className="w-full·sm:w-auto·shadow-lg·hover:shadow-xl·transition-all"⏎············`  prettier/prettier
+113:58  Warning: Replace `⏎············{home.features.subtitle}⏎··········` with `{home.features.subtitle}`  prettier/prettier
+148:63  Warning: Replace `⏎············{home.cta.title}⏎··········` with `{home.cta.title}`  prettier/prettier
+151:50  Warning: Replace `⏎············{home.cta.subtitle}⏎··········` with `{home.cta.subtitle}`  prettier/prettier
+
+./components/ui/button.tsx
+39:32  Warning: 'asChild' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./components/ui/toast.tsx
+74:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+86:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+98:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+116:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+141:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+185:1  Warning: Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+./components/__tests__/LanguageSwitcher.test.tsx
+86:16  Error: A `require()` style import is forbidden.  @typescript-eslint/no-require-imports
+102:13  Warning: 'container' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./lib/accessibility/wcag.ts
+121:16  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/dictionaries.ts
+78:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+79:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+80:30  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+81:26  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/firebase/admin.ts
+36:11  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+47:9  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+87:1  Warning: Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+./lib/firebase/auth-advanced.ts
+267:23  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+283:44  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/firebase/config.ts
+62:5  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+
+./lib/firebase/db.ts
+471:11  Warning: Replace `collection(getDb(),·`users/${userId}/assessments`),·orderBy('createdAt',·'desc'),·limit(1)` with `⏎······collection(getDb(),·`users/${userId}/assessments`),⏎······orderBy('createdAt',·'desc'),⏎······limit(1)⏎····`  prettier/prettier
+
+./lib/hooks/useAuth.ts
+84:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+98:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+111:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+123:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+135:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+147:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/monitoring/error-tracker.ts
+12:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+121:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+122:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+123:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+124:25  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+125:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+126:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+133:18  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+140:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+147:25  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+204:62  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/notifications/notification-service.ts
+6:10  Warning: 'User' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+38:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+43:21  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+45:20  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+362:5  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+368:5  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+374:5  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+
+./lib/performance/monitoring.ts
+53:5  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+139:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+139:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+162:46  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+162:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+188:34  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+204:36  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+270:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+340:22  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/seo/metadata.ts
+147:55  Warning: 'locale' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+149:17  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/services/dataService.ts
+40:14  Warning: Replace `userId:·string,·userData:·Omit<User,·'uid'·|·'createdAt'·|·'updatedAt'>` with `⏎····userId:·string,⏎····userData:·Omit<User,·'uid'·|·'createdAt'·|·'updatedAt'>⏎··`  prettier/prettier
+206:27  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+206:43  Warning: 'calculationId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+215:37  Warning: 'limit' is assigned a value but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+221:20  Warning: 'slug' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+221:34  Warning: 'locale' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+226:33  Warning: 'limit' is assigned a value but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+239:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+255:17  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+260:5  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+261:5  Warning: 'userData' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+267:5  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+268:5  Warning: 'updates' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+273:25  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+278:5  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+279:5  Warning: 'toolId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+280:5  Warning: 'toolName' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+281:5  Warning: 'data' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+286:29  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+286:45  Warning: 'toolId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+290:30  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+290:46  Warning: 'toolId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+294:27  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+294:43  Warning: 'calculationId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+298:21  Warning: 'locale' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+298:37  Warning: 'limit' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+302:20  Warning: 'slug' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+302:34  Warning: 'locale' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+306:17  Warning: 'locale' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+306:33  Warning: 'limit' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+310:20  Warning: 'userId' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+310:43  Warning: 'event' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./lib/utils/assessment-calculator.ts
+228:66  Warning: 'score' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+305:29  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/utils/currency.ts
+138:57  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+163:51  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+290:81  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/utils/data-export.ts
+7:3  Warning: 'User' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+254:28  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+260:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./lib/utils/formatters.ts
+65:3  Warning: 'locale' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./lib/utils/pdf-generator.ts
+2:26  Warning: 'formatNumber' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+205:9  Warning: 'successColor' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./lib/utils/performance.ts
+33:5  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+129:9  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+150:7  Warning: Unexpected console statement. Only these console methods are allowed: warn, error.  no-console
+
+./lib/utils/__tests__/debt-calculator.test.ts
+10:8  Warning: 'DebtCalculationResult' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules

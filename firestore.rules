@@ -1,0 +1,144 @@
+rules_version = '2';
+
+/**
+ * Firestore Security Rules - Phase One
+ * Acash.ai - Free Tier Only
+ *
+ * Last Updated: 2025-10-09
+ * Version: 1.0.0
+ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ==========================================
+    // HELPER FUNCTIONS
+    // ==========================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'displayName', 'emailVerified', 'createdAt', 'updatedAt'])
+        && data.email is string
+        && data.displayName is string
+        && data.emailVerified is bool;
+    }
+
+    // ==========================================
+    // USER DOCUMENTS
+    // ==========================================
+
+    match /users/{userId} {
+      // Users can only read their own profile
+      allow read: if isOwner(userId);
+
+      // Users can create their own profile during registration
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+
+      // Users can update their own profile (but not uid, createdAt)
+      allow update: if isOwner(userId)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.createdAt == resource.data.createdAt;
+
+      // Users cannot delete their own profile (must use account deletion flow)
+      allow delete: if false;
+
+      // ==========================================
+      // USER SUBCOLLECTIONS
+      // ==========================================
+
+      // Calculations (tool results)
+      match /calculations/{calcId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Assessments (financial health assessments)
+      match /assessments/{assessmentId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if false; // Assessments are immutable
+        allow delete: if isOwner(userId);
+      }
+
+      // Debts (debt tracking - Phase One basic)
+      match /debts/{debtId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Goals (financial goals)
+      match /goals/{goalId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+
+      // Budgets (budget categories)
+      match /budgets/{budgetId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isOwner(userId);
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // ==========================================
+    // PUBLIC CONTENT (Read-Only)
+    // ==========================================
+
+    // Articles (financial literacy content)
+    match /articles/{articleId} {
+      // Anyone can read articles (public content)
+      allow read: if true;
+
+      // Only admins can write (via Firebase Console or Cloud Functions)
+      allow write: if false;
+    }
+
+    // Tips (financial tips)
+    match /tips/{tipId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Glossary (financial terms)
+    match /glossary/{termId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ==========================================
+    // ANALYTICS & TRACKING (Write-Only)
+    // ==========================================
+
+    match /analytics/{eventId} {
+      // Anonymous users can write analytics events
+      allow create: if true;
+
+      // No reading analytics (privacy)
+      allow read: if false;
+      allow update, delete: if false;
+    }
+
+    // ==========================================
+    // DENY ALL OTHER PATHS
+    // ==========================================
+
+    // Explicitly deny access to any other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

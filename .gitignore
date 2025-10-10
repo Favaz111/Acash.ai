@@ -35,3 +35,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Windows reserved device filenames
+NUL
+CON
+PRN
+AUX
+
+# Windows reserved device filenames
+NUL
+CON
+PRN
+AUX

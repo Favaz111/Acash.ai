@@ -1,0 +1,158 @@
+{
+  "common": {
+    "appName": "Acash.ai",
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "home": {
+    "hero": {
+      "title": "Plan Your Financial Future",
+      "titleHighlight": "Smartly",
+      "subtitle": "Advanced AI-powered tools to help you achieve your financial goals with ease and confidence",
+      "ctaPrimary": "Start Free",
+      "ctaSecondary": "Free Tools",
+      "freeBadge": "100% Free • No Credit Card Required"
+    },
+    "features": {
+      "title": "Why Acash.ai?",
+      "subtitle": "A comprehensive platform to manage your money easily and effectively",
+      "calculators": {
+        "title": "Advanced Financial Calculators",
+        "description": "8 free tools to manage your budget"
+      },
+      "reports": {
+        "title": "Detailed Reports",
+        "description": "Comprehensive financial analysis"
+      },
+      "security": {
+        "title": "Secure & Encrypted",
+        "description": "Your data protected with top security"
+      },
+      "speed": {
+        "title": "Fast & Easy",
+        "description": "Instant results in seconds"
+      }
+    },
+    "cta": {
+      "title": "Ready to Improve Your Financial Health?",
+      "subtitle": "Join thousands of users who achieved their financial goals",
+      "button": "Get Started Free"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "tools": "Tools",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "auth": {
+    "loginTitle": "Login",
+    "registerTitle": "Create Account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "displayName": "Full Name",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login",
+    "emailSent": "Reset link sent to your email",
+    "invalidCredentials": "Invalid credentials",
+    "accountCreated": "Account created successfully"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome {name}",
+    "financialHealth": "Financial Health",
+    "healthScore": "Health Score",
+    "monthlyIncome": "Monthly Income",
+    "monthlyExpenses": "Monthly Expenses",
+    "totalSavings": "Savings",
+    "totalDebts": "Debts",
+    "netIncome": "Net Income",
+    "netWorth": "Net Worth",
+    "activeGoals": "Active Goals",
+    "quickActions": "Quick Actions",
+    "recommendations": "Recommendations",
+    "aiAdvisor": "AI Advisor"
+  },
+  "tools": {
+    "title": "Financial Tools",
+    "debtCalculator": "Debt Calculator",
+    "budgetPlanner": "Budget Planner",
+    "investmentCalculator": "Investment Calculator",
+    "emergencyFund": "Emergency Fund",
+    "retirementPlanner": "Retirement Planner",
+    "goalTracker": "Goal Tracker"
+  },
+  "debt": {
+    "title": "Debt Payoff Calculator",
+    "totalDebt": "Total Debt",
+    "interestRate": "Annual Interest Rate",
+    "monthlyPayment": "Monthly Payment",
+    "debtType": "Debt Type",
+    "targetMonths": "Target Months",
+    "extraPayment": "Extra Monthly Payment",
+    "calculate": "Calculate",
+    "results": "Results",
+    "payoffTime": "Payoff Time",
+    "totalPaid": "Total Paid",
+    "totalInterest": "Total Interest",
+    "recommendations": "Recommendations",
+    "years": "{count, plural, =1 {year} other {years}}",
+    "months": "{count, plural, =1 {month} other {months}}"
+  },
+  "errors": {
+    "generic": "An unexpected error occurred",
+    "network": "Network error",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "serverError": "Server error",
+    "validation": "Validation error",
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "passwordTooShort": "Password is too short",
+    "passwordMismatch": "Passwords don't match"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully",
+    "created": "Created successfully",
+    "sent": "Sent successfully"
+  },
+  "premium": {
+    "title": "Premium Subscription",
+    "upgrade": "Upgrade to Premium",
+    "features": "Features",
+    "pricing": "Pricing",
+    "subscribe": "Subscribe Now",
+    "freeTier": "Free Tier",
+    "premiumTier": "Premium Tier",
+    "enterpriseTier": "Enterprise Tier"
+  }
+}

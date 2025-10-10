@@ -1,0 +1,46 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isUnder5MB() {
+      return request.resource.size < 5 * 1024 * 1024; // 5MB
+    }
+
+    // User profile images
+    match /users/{userId}/profile/{imageId} {
+      allow read: if isAuthenticated(); // الجميع يمكنهم رؤية صور البروفايل
+
+      allow write: if isOwner(userId)
+                   && isValidImage()
+                   && isUnder5MB();
+
+      allow delete: if isOwner(userId);
+    }
+
+    // Assessment related documents (if any)
+    match /assessments/{userId}/{document=**} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId) && isUnder5MB();
+      allow delete: if isOwner(userId);
+    }
+
+    // منع الوصول لأي ملفات أخرى
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

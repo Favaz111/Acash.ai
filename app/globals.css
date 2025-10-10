@@ -1,55 +1,188 @@
+/* Font Imports - Must be at the top before Tailwind directives */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* استيراد الخطوط العربية والإنجليزية */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* ====================================== */
+/* ACASH.AI BRAND DESIGN SYSTEM - v2.0   */
+/* Phase One: Free Tier Foundation       */
+/* ====================================== */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* ==================== */
+    /* PRIMARY COLORS       */
+    /* ==================== */
+
+    /* Trust & Stability (Blue) */
+    --primary-blue: 210 100% 40%;        /* #0066CC */
+    --primary-blue-dark: 210 100% 30%;   /* #004C99 */
+    --primary-blue-light: 210 91% 51%;   /* #3385D6 */
+
+    /* Growth & Prosperity (Green) */
+    --secondary-green: 158 100% 33%;     /* #00A86B */
+    --secondary-green-dark: 158 100% 26%; /* #008556 */
+    --secondary-green-light: 157 56% 47%; /* #33BB85 */
+
+    /* Intelligence & Innovation (Purple/Teal) */
+    --accent-purple: 255 48% 52%;        /* #6B46C1 */
+    --accent-teal: 173 80% 40%;          /* #14B8A6 */
+
+    /* ==================== */
+    /* NEUTRAL COLORS       */
+    /* ==================== */
+
+    --neutral-950: 0 0% 4%;              /* #0A0A0A - Primary text */
+    --neutral-800: 0 0% 15%;             /* #262626 - Secondary text */
+    --neutral-600: 0 0% 32%;             /* #525252 - Tertiary text */
+    --neutral-400: 0 0% 64%;             /* #A3A3A3 - Placeholder */
+    --neutral-200: 0 0% 90%;             /* #E5E5E5 - Borders */
+    --neutral-100: 0 0% 96%;             /* #F5F5F5 - Backgrounds */
+    --neutral-50: 0 0% 98%;              /* #FAFAFA - Surface */
+    --white: 0 0% 100%;                  /* #FFFFFF */
+
+    /* ==================== */
+    /* SEMANTIC COLORS      */
+    /* ==================== */
+
+    --success: 158 100% 33%;             /* Green */
+    --warning: 38 92% 50%;               /* Amber - #F59E0B */
+    --error: 0 73% 50%;                  /* Red - #DC2626 */
+    --info: 210 100% 40%;                /* Blue */
+
+    /* ==================== */
+    /* SHADCN/UI MAPPING    */
+    /* ==================== */
+
+    --background: var(--neutral-50);
+    --foreground: var(--neutral-950);
+
+    --card: var(--white);
+    --card-foreground: var(--neutral-950);
+
+    --popover: var(--white);
+    --popover-foreground: var(--neutral-950);
+
+    --primary: var(--primary-blue);
+    --primary-foreground: var(--white);
+
+    --secondary: var(--secondary-green);
+    --secondary-foreground: var(--white);
+
+    --muted: var(--neutral-100);
+    --muted-foreground: var(--neutral-600);
+
+    --accent: var(--accent-teal);
+    --accent-foreground: var(--white);
+
+    --destructive: var(--error);
+    --destructive-foreground: var(--white);
+
+    --border: var(--neutral-200);
+    --input: var(--neutral-200);
+    --ring: var(--primary-blue);
+
+    /* ==================== */
+    /* SPACING SCALE        */
+    /* ==================== */
+
+    --space-xs: 0.25rem;    /* 4px */
+    --space-sm: 0.5rem;     /* 8px */
+    --space-md: 1rem;       /* 16px */
+    --space-lg: 1.5rem;     /* 24px */
+    --space-xl: 2rem;       /* 32px */
+    --space-2xl: 3rem;      /* 48px */
+    --space-3xl: 4rem;      /* 64px */
+
+    /* ==================== */
+    /* BORDER RADIUS        */
+    /* ==================== */
+
+    --radius-sm: 0.25rem;   /* 4px */
+    --radius-md: 0.5rem;    /* 8px */
+    --radius-lg: 0.75rem;   /* 12px */
+    --radius-xl: 1rem;      /* 16px */
+    --radius-2xl: 1.5rem;   /* 24px */
+    --radius-full: 9999px;
+    --radius: var(--radius-md); /* Default */
+
+    /* ==================== */
+    /* SHADOWS              */
+    /* ==================== */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+    /* ==================== */
+    /* TRANSITIONS          */
+    /* ==================== */
+
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ==================== */
+    /* TYPOGRAPHY           */
+    /* ==================== */
+
+    --font-en-display: 'Inter', system-ui, sans-serif;
+    --font-en-body: 'Inter', system-ui, sans-serif;
+    --font-ar-display: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
+    --font-ar-body: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
+
+    /* Font Weights */
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    /* Font Sizes */
+    --text-xs: 0.75rem;     /* 12px */
+    --text-sm: 0.875rem;    /* 14px */
+    --text-base: 1rem;      /* 16px */
+    --text-lg: 1.125rem;    /* 18px */
+    --text-xl: 1.25rem;     /* 20px */
+    --text-2xl: 1.5rem;     /* 24px */
+    --text-3xl: 1.875rem;   /* 30px */
+    --text-4xl: 2.25rem;    /* 36px */
+    --text-5xl: 3rem;       /* 48px */
   }
 
+  /* ==================== */
+  /* DARK MODE (Optional) */
+  /* ==================== */
+
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --background: var(--neutral-950);
+    --foreground: var(--neutral-50);
+
+    --card: var(--neutral-800);
+    --card-foreground: var(--neutral-50);
+
+    --popover: var(--neutral-800);
+    --popover-foreground: var(--neutral-50);
+
+    --primary: var(--primary-blue-light);
+    --primary-foreground: var(--neutral-950);
+
+    --secondary: var(--secondary-green-light);
+    --secondary-foreground: var(--neutral-950);
+
+    --muted: var(--neutral-800);
+    --muted-foreground: var(--neutral-400);
+
+    --accent: var(--accent-teal);
+    --accent-foreground: var(--neutral-950);
+
+    --border: var(--neutral-800);
+    --input: var(--neutral-800);
+    --ring: var(--primary-blue-light);
   }
 }
 
@@ -57,37 +190,65 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground font-arabic;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
-  
+
   /* دعم RTL للعربية */
-  html[dir="rtl"] {
+  html[dir='rtl'] {
     direction: rtl;
   }
-  
-  html[lang="ar"] {
+
+  html[lang='ar'] {
     font-family: 'IBM Plex Sans Arabic', sans-serif;
   }
-  
-  html[lang="en"] {
+
+  html[lang='en'] {
     font-family: 'Inter', sans-serif;
   }
 }
 
-/* Gradient utilities من نظام التصميم */
+/* ==================== */
+/* BRAND GRADIENTS      */
+/* ==================== */
+
 @layer utilities {
+  /* Primary Gradient (Blue → Green) */
   .gradient-primary {
-    background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+    background: linear-gradient(135deg, hsl(var(--primary-blue)) 0%, hsl(var(--secondary-green)) 100%);
   }
-  
+
+  /* Success Gradient (Green shades) */
   .gradient-success {
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    background: linear-gradient(135deg, hsl(var(--secondary-green)) 0%, hsl(var(--accent-teal)) 100%);
   }
-  
-  .gradient-premium {
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+
+  /* Info Gradient (Blue shades) */
+  .gradient-info {
+    background: linear-gradient(135deg, hsl(var(--primary-blue)) 0%, hsl(var(--primary-blue-light)) 100%);
+  }
+
+  /* Accent Gradient (Purple → Blue) - For future Phase Two */
+  .gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent-purple)) 0%, hsl(var(--primary-blue)) 100%);
+  }
+
+  /* Text Gradients */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary-blue)) 0%, hsl(var(--secondary-green)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-success {
+    background: linear-gradient(135deg, hsl(var(--secondary-green)) 0%, hsl(var(--accent-teal)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

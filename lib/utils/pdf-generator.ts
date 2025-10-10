@@ -1,0 +1,1581 @@
+import { jsPDF } from 'jspdf';
+import { formatCurrency, formatNumber } from '@/lib/utils';
+
+// ==========================================
+// TYPE DEFINITIONS
+// ==========================================
+
+interface DebtReportData {
+  // Inputs
+  debtType: string;
+  totalDebt: number;
+  interestRate: number;
+  monthlyPayment: number;
+
+  // Results
+  healthScore: number;
+  years: number;
+  remainingMonths: number;
+  months: number;
+  totalPaid: number;
+  totalInterest: number;
+
+  // Recommendations
+  recommendations: Array<{
+    title: string;
+    description: string;
+    impact: string;
+    benefits: string[];
+    actionable?: string;
+  }>;
+
+  // Simulations
+  simulations: Array<{
+    payment: number;
+    savings: number;
+    monthsSaved: number;
+  }>;
+}
+
+interface BudgetReportData {
+  monthlyIncome: number;
+  monthlyExpenses: number;
+  balance: number;
+  status: 'surplus' | 'balanced' | 'deficit';
+  balancePercentage: number;
+  savingsRate: number;
+  healthScore: number;
+  recommendations: Array<{
+    priority: 'high' | 'medium' | 'low';
+    title: string;
+    impact: string;
+    benefits: string[];
+  }>;
+}
+
+interface LoanReportData {
+  principal: number;
+  interestRate: number;
+  termYears: number;
+  monthlyPayment: number;
+  totalPayment: number;
+  totalInterest: number;
+  amortizationSchedule?: Array<{
+    month: number;
+    payment: number;
+    principal: number;
+    interest: number;
+    balance: number;
+  }>;
+}
+
+export const generateDebtReportPDF = (data: DebtReportData) => {
+  const doc = new jsPDF();
+
+  // تعيين الخط للعربية (نستخدم الخط الافتراضي)
+  doc.setFont('helvetica', 'normal');
+
+  let yPos = 20;
+
+  // العنوان
+  doc.setFontSize(20);
+  doc.text('Debt Repayment Report', 105, yPos, { align: 'center' });
+  doc.text('تقرير سداد الديون', 105, yPos + 8, { align: 'center' });
+
+  yPos += 25;
+
+  // الخط الفاصل
+  doc.setLineWidth(0.5);
+  doc.line(20, yPos, 190, yPos);
+  yPos += 10;
+
+  // درجة الصحة المالية
+  doc.setFontSize(16);
+  doc.text('Financial Health Score', 20, yPos);
+  doc.setFontSize(24);
+  doc.setTextColor(
+    data.healthScore >= 80 ? 34 : data.healthScore >= 60 ? 59 : data.healthScore >= 40 ? 234 : 220,
+    data.healthScore >= 80 ? 197 : data.healthScore >= 60 ? 130 : data.healthScore >= 40 ? 179 : 38,
+    data.healthScore >= 80 ? 94 : data.healthScore >= 60 ? 246 : data.healthScore >= 40 ? 8 : 38
+  );
+  doc.text(`${data.healthScore}/100`, 150, yPos);
+  doc.setTextColor(0, 0, 0);
+  yPos += 15;
+
+  // النتائج الرئيسية
+  doc.setFontSize(14);
+  doc.text('Main Results:', 20, yPos);
+  yPos += 10;
+
+  doc.setFontSize(11);
+  const results = [
+    `Total Debt: ${formatCurrency(data.totalDebt)}`,
+    `Interest Rate: ${data.interestRate}%`,
+    `Monthly Payment: ${formatCurrency(data.monthlyPayment)}`,
+    `Payoff Period: ${data.years} years ${data.remainingMonths} months`,
+    `Total to Pay: ${formatCurrency(data.totalPaid)}`,
+    `Total Interest: ${formatCurrency(data.totalInterest)}`,
+  ];
+
+  results.forEach((result) => {
+    doc.text(result, 25, yPos);
+    yPos += 7;
+  });
+
+  yPos += 10;
+
+  // التوصيات
+  if (data.recommendations.length > 0) {
+    doc.setFontSize(14);
+    doc.text('Smart Recommendations:', 20, yPos);
+    yPos += 10;
+
+    data.recommendations.slice(0, 3).forEach((rec, index) => {
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${index + 1}. ${rec.title}`, 25, yPos);
+      doc.setFont('helvetica', 'normal');
+      yPos += 7;
+
+      doc.setFontSize(10);
+      doc.text(rec.description, 30, yPos);
+      yPos += 6;
+
+      rec.benefits.slice(0, 2).forEach((benefit) => {
+        const cleanBenefit = benefit.replace(/[✨⏰💪📈🏃✅]/g, '').trim();
+        doc.text(`- ${cleanBenefit}`, 35, yPos);
+        yPos += 5;
+      });
+
+      yPos += 5;
+
+      // صفحة جديدة إذا اقتربنا من النهاية
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+    });
+  }
+
+  // صفحة جديدة للمحاكاة
+  if (data.simulations.length > 0 && yPos > 200) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  // السيناريوهات
+  if (data.simulations.length > 0) {
+    yPos += 10;
+    doc.setFontSize(14);
+    doc.text('Payment Scenarios:', 20, yPos);
+    yPos += 10;
+
+    data.simulations.forEach((sim, index) => {
+      doc.setFontSize(11);
+      doc.text(
+        `Scenario ${index + 1}: ${formatCurrency(sim.payment)}/month → Save ${formatCurrency(sim.savings)} (${sim.monthsSaved} months faster)`,
+        25,
+        yPos
+      );
+      yPos += 8;
+    });
+  }
+
+  // Footer في كل صفحة
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(9);
+    doc.setTextColor(128, 128, 128);
+    doc.text(`Generated by Acash.ai - Page ${i} of ${pageCount}`, 105, 285, { align: 'center' });
+    doc.text(new Date().toLocaleDateString('en-US'), 190, 285, { align: 'right' });
+  }
+
+  // تنزيل الملف
+  doc.save(`debt-report-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// BUDGET CALCULATOR PDF
+// ==========================================
+
+export const generateBudgetPDF = (data: BudgetReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204]; // #0066CC
+  const successColor = [0, 168, 107]; // #00A86B
+
+  let yPos = 20;
+
+  // Header with Branding
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير الميزانية الشخصية', 105, 32, { align: 'center' });
+
+  // Reset colors
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // Health Score Section
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('درجة الصحة المالية', 20, yPos);
+  yPos += 10;
+
+  // Health score box
+  const scoreColor =
+    data.healthScore >= 80
+      ? [34, 197, 94] // green
+      : data.healthScore >= 60
+        ? [59, 130, 246] // blue
+        : data.healthScore >= 40
+          ? [234, 179, 8] // yellow
+          : [220, 38, 38]; // red
+
+  doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2], 0.1);
+  doc.roundedRect(20, yPos, 170, 30, 5, 5, 'F');
+  doc.setTextColor(scoreColor[0], scoreColor[1], scoreColor[2]);
+  doc.setFontSize(36);
+  doc.text(`${data.healthScore}/100`, 105, yPos + 20, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos += 40;
+
+  // Main Results Section
+  doc.setFontSize(14);
+  doc.text('نتائج الميزانية', 20, yPos);
+  yPos += 10;
+
+  const results = [
+    { label: 'الدخل الشهري', value: formatCurrency(data.monthlyIncome), color: [34, 197, 94] },
+    {
+      label: 'المصروفات الشهرية',
+      value: formatCurrency(data.monthlyExpenses),
+      color: [234, 88, 12],
+    },
+    {
+      label: 'الرصيد الشهري',
+      value: formatCurrency(Math.abs(data.balance)),
+      color: data.balance >= 0 ? [34, 197, 94] : [220, 38, 38],
+    },
+    { label: 'نسبة الادخار', value: `${data.savingsRate.toFixed(1)}%`, color: [59, 130, 246] },
+  ];
+
+  results.forEach((result) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(result.label, 25, yPos + 10);
+
+    doc.setTextColor(result.color[0], result.color[1], result.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(result.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  // Status Section
+  yPos += 5;
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+  doc.text('حالة الميزانية', 20, yPos);
+  yPos += 10;
+
+  const statusText =
+    data.status === 'surplus'
+      ? 'فائض - وضع ممتاز'
+      : data.status === 'balanced'
+        ? 'متوازن - يحتاج تحسين'
+        : 'عجز - يحتاج إجراء فوري';
+
+  const statusColor =
+    data.status === 'surplus'
+      ? [34, 197, 94]
+      : data.status === 'balanced'
+        ? [234, 179, 8]
+        : [220, 38, 38];
+
+  doc.setFillColor(statusColor[0], statusColor[1], statusColor[2], 0.1);
+  doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+  doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.text(statusText, 105, yPos + 10, { align: 'center' });
+  doc.setFont('helvetica', 'normal');
+
+  yPos += 25;
+
+  // New page for recommendations
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  // Recommendations Section
+  if (data.recommendations.length > 0) {
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('توصيات ذكية لتحسين ميزانيتك', 20, yPos);
+    yPos += 10;
+
+    data.recommendations.slice(0, 3).forEach((rec, index) => {
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      doc.setFillColor(249, 250, 251);
+      doc.roundedRect(20, yPos, 170, 8, 2, 2, 'F');
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${index + 1}. ${rec.title}`, 25, yPos + 6);
+      doc.setFont('helvetica', 'normal');
+      yPos += 10;
+
+      doc.setFontSize(9);
+      rec.benefits.slice(0, 3).forEach((benefit) => {
+        const cleanBenefit = benefit.replace(/[✅💰📈🎯⚡]/g, '').trim();
+        const lines = doc.splitTextToSize(cleanBenefit, 160);
+        doc.text(lines, 30, yPos);
+        yPos += lines.length * 5;
+      });
+
+      yPos += 8;
+    });
+  }
+
+  // Quick Tips Section
+  yPos += 10;
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(14);
+  doc.text('نصائح سريعة', 20, yPos);
+  yPos += 10;
+
+  const tips = [
+    'قاعدة 50/30/20: 50% ضروريات، 30% رغبات، 20% ادخار',
+    'راجع مصروفاتك يومياً لمدة شهر لاكتشاف نقاط الهدر',
+    'ابدأ بادخار 3-6 أشهر من مصروفاتك الأساسية',
+    'أتمتة الادخار: حول مبلغ ثابت تلقائياً في بداية كل شهر',
+  ];
+
+  doc.setFontSize(10);
+  tips.forEach((tip) => {
+    const lines = doc.splitTextToSize(tip, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 3;
+  });
+
+  // Footer on all pages
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  // Save PDF
+  doc.save(`acash-budget-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// LOAN CALCULATOR PDF
+// ==========================================
+
+export const generateLoanPDF = (data: LoanReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204]; // #0066CC
+
+  let yPos = 20;
+
+  // Header with Branding
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير القرض المفصل', 105, 32, { align: 'center' });
+
+  // Reset colors
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // Loan Summary Section
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('ملخص القرض', 20, yPos);
+  yPos += 10;
+
+  const loanSummary = [
+    { label: 'مبلغ القرض', value: formatCurrency(data.principal), color: [59, 130, 246] },
+    {
+      label: 'نسبة الفائدة السنوية',
+      value: `${data.interestRate.toFixed(2)}%`,
+      color: [234, 88, 12],
+    },
+    {
+      label: 'مدة القرض',
+      value: `${data.termYears} ${data.termYears === 1 ? 'سنة' : 'سنوات'}`,
+      color: [107, 114, 128],
+    },
+    {
+      label: 'الدفعة الشهرية',
+      value: formatCurrency(data.monthlyPayment),
+      color: [34, 197, 94],
+    },
+    {
+      label: 'إجمالي المدفوع',
+      value: formatCurrency(data.totalPayment),
+      color: [147, 51, 234],
+    },
+    { label: 'إجمالي الفوائد', value: formatCurrency(data.totalInterest), color: [220, 38, 38] },
+  ];
+
+  loanSummary.forEach((item) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(item.label, 25, yPos + 10);
+
+    doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(item.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  yPos += 10;
+
+  // Interest Breakdown
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+  doc.text('تحليل الفوائد', 20, yPos);
+  yPos += 10;
+
+  const interestPercentage = ((data.totalInterest / data.principal) * 100).toFixed(1);
+  doc.setFontSize(11);
+  doc.text(
+    `ستدفع ${formatCurrency(data.totalInterest)} كفوائد، وهو ${interestPercentage}% من مبلغ القرض الأصلي.`,
+    25,
+    yPos
+  );
+  yPos += 10;
+
+  const principalPercentage = ((data.principal / data.totalPayment) * 100).toFixed(1);
+  doc.text(
+    `من إجمالي المبلغ المدفوع ${formatCurrency(data.totalPayment)}، ${principalPercentage}% هو أصل القرض و ${(100 - parseFloat(principalPercentage)).toFixed(1)}% فوائد.`,
+    25,
+    yPos
+  );
+  yPos += 15;
+
+  // Amortization Schedule (if provided)
+  if (data.amortizationSchedule && data.amortizationSchedule.length > 0) {
+    if (yPos > 200) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setFontSize(14);
+    doc.text('جدول السداد (أول 12 شهر)', 20, yPos);
+    yPos += 10;
+
+    // Table header
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(20, yPos, 170, 10, 'F');
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(9);
+    doc.text('الشهر', 25, yPos + 7);
+    doc.text('الدفعة', 60, yPos + 7);
+    doc.text('الأصل', 95, yPos + 7);
+    doc.text('الفائدة', 125, yPos + 7);
+    doc.text('الرصيد', 160, yPos + 7);
+
+    yPos += 12;
+    doc.setTextColor(0, 0, 0);
+
+    // Table rows (first 12 months)
+    data.amortizationSchedule.slice(0, 12).forEach((row, index) => {
+      if (yPos > 270) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      const bgColor = index % 2 === 0 ? 249 : 255;
+      doc.setFillColor(bgColor, bgColor, bgColor);
+      doc.rect(20, yPos - 5, 170, 8, 'F');
+
+      doc.setFontSize(8);
+      doc.text(row.month.toString(), 25, yPos);
+      doc.text(formatCurrency(row.payment), 60, yPos);
+      doc.text(formatCurrency(row.principal), 95, yPos);
+      doc.text(formatCurrency(row.interest), 125, yPos);
+      doc.text(formatCurrency(row.balance), 160, yPos);
+
+      yPos += 8;
+    });
+  }
+
+  // Tips Section
+  yPos += 15;
+  if (yPos > 230) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(14);
+  doc.text('نصائح لتوفير المال', 20, yPos);
+  yPos += 10;
+
+  const loanTips = [
+    'دفعات إضافية: أي مبلغ إضافي يذهب مباشرة لأصل القرض ويوفر آلاف الريالات من الفوائد',
+    'إعادة التمويل: إذا تحسن وضعك المالي، ابحث عن قرض بفائدة أقل',
+    'دفع كل أسبوعين: بدلاً من مرة شهرياً، ادفع نصف المبلغ كل أسبوعين لتوفير الفوائد',
+    'تجنب تأخير الدفعات: الغرامات تزيد من تكلفة القرض بشكل كبير',
+  ];
+
+  doc.setFontSize(10);
+  loanTips.forEach((tip) => {
+    const lines = doc.splitTextToSize(tip, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 5;
+  });
+
+  // Footer on all pages
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  // Save PDF
+  doc.save(`acash-loan-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// SAVINGS GOAL CALCULATOR PDF
+// ==========================================
+
+interface SavingsReportData {
+  goalAmount: number;
+  currentSavings: number;
+  monthlyContribution: number;
+  monthsToGoal: number;
+  totalToSave: number;
+  feasibilityScore: number;
+  status: string;
+  recommendations: Array<{
+    title: string;
+    description: string;
+    impact: string;
+  }>;
+}
+
+export const generateSavingsPDF = (data: SavingsReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204]; // #0066CC
+
+  let yPos = 20;
+
+  // Header with Branding
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير خطة الادخار', 105, 32, { align: 'center' });
+
+  // Reset colors
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // Feasibility Score Section
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('درجة جدوى الخطة', 20, yPos);
+  yPos += 10;
+
+  const scoreColor =
+    data.feasibilityScore >= 80
+      ? [34, 197, 94]
+      : data.feasibilityScore >= 60
+        ? [59, 130, 246]
+        : data.feasibilityScore >= 40
+          ? [234, 179, 8]
+          : [220, 38, 38];
+
+  doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2], 0.1);
+  doc.roundedRect(20, yPos, 170, 30, 5, 5, 'F');
+  doc.setTextColor(scoreColor[0], scoreColor[1], scoreColor[2]);
+  doc.setFontSize(36);
+  doc.text(`${data.feasibilityScore}/100`, 105, yPos + 20, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos += 40;
+
+  // Main Results Section
+  doc.setFontSize(14);
+  doc.text('ملخص خطة الادخار', 20, yPos);
+  yPos += 10;
+
+  const results = [
+    { label: 'هدف الادخار', value: formatCurrency(data.goalAmount), color: [59, 130, 246] },
+    {
+      label: 'المدخرات الحالية',
+      value: formatCurrency(data.currentSavings),
+      color: [34, 197, 94],
+    },
+    {
+      label: 'الادخار الشهري',
+      value: formatCurrency(data.monthlyContribution),
+      color: [147, 51, 234],
+    },
+    {
+      label: 'الفترة المطلوبة',
+      value: `${data.monthsToGoal} شهر`,
+      color: [234, 88, 12],
+    },
+    {
+      label: 'المبلغ المتبقي',
+      value: formatCurrency(data.totalToSave),
+      color: [220, 38, 38],
+    },
+  ];
+
+  results.forEach((result) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(result.label, 25, yPos + 10);
+
+    doc.setTextColor(result.color[0], result.color[1], result.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(result.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  yPos += 10;
+
+  // New page for recommendations
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  // Recommendations Section
+  if (data.recommendations.length > 0) {
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('توصيات لتحقيق الهدف', 20, yPos);
+    yPos += 10;
+
+    data.recommendations.slice(0, 3).forEach((rec, index) => {
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      doc.setFillColor(249, 250, 251);
+      doc.roundedRect(20, yPos, 170, 8, 2, 2, 'F');
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${index + 1}. ${rec.title}`, 25, yPos + 6);
+      doc.setFont('helvetica', 'normal');
+      yPos += 10;
+
+      doc.setFontSize(9);
+      const lines = doc.splitTextToSize(rec.description, 160);
+      doc.text(lines, 30, yPos);
+      yPos += lines.length * 5 + 8;
+    });
+  }
+
+  // Quick Tips
+  yPos += 10;
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(14);
+  doc.text('نصائح سريعة', 20, yPos);
+  yPos += 10;
+
+  const tips = [
+    'أتمت الادخار: حول المبلغ تلقائياً في بداية كل شهر',
+    'احفظ المدخرات في حساب منفصل لتجنب إغراء الإنفاق',
+    'راجع تقدمك كل 3 أشهر وعدّل الخطة عند الحاجة',
+    'احتفل بالإنجازات الصغيرة للحفاظ على الحماس',
+  ];
+
+  doc.setFontSize(10);
+  tips.forEach((tip) => {
+    const lines = doc.splitTextToSize(tip, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 3;
+  });
+
+  // Footer on all pages
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  // Save PDF
+  doc.save(`acash-savings-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// EMERGENCY FUND CALCULATOR PDF
+// ==========================================
+
+interface EmergencyReportData {
+  monthlyExpenses: number;
+  targetAmount: number;
+  currentSavings: number;
+  monthsNeeded: number;
+  monthlySavings: number;
+  healthScore: number;
+  status: string;
+  recommendations: Array<{
+    title: string;
+    impact: string;
+    benefits: string[];
+  }>;
+}
+
+export const generateEmergencyPDF = (data: EmergencyReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204];
+
+  let yPos = 20;
+
+  // Header
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير صندوق الطوارئ', 105, 32, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // Health Score
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('درجة الأمان المالي', 20, yPos);
+  yPos += 10;
+
+  const scoreColor =
+    data.healthScore >= 80
+      ? [34, 197, 94]
+      : data.healthScore >= 60
+        ? [59, 130, 246]
+        : data.healthScore >= 40
+          ? [234, 179, 8]
+          : [220, 38, 38];
+
+  doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2], 0.1);
+  doc.roundedRect(20, yPos, 170, 30, 5, 5, 'F');
+  doc.setTextColor(scoreColor[0], scoreColor[1], scoreColor[2]);
+  doc.setFontSize(36);
+  doc.text(`${data.healthScore}/100`, 105, yPos + 20, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos += 40;
+
+  // Main Results
+  doc.setFontSize(14);
+  doc.text('نتائج التحليل', 20, yPos);
+  yPos += 10;
+
+  const results = [
+    { label: 'المبلغ المستهدف', value: formatCurrency(data.targetAmount), color: [59, 130, 246] },
+    {
+      label: 'المدخرات الحالية',
+      value: formatCurrency(data.currentSavings),
+      color: [34, 197, 94],
+    },
+    {
+      label: 'التقدم',
+      value: `${Math.round((data.currentSavings / data.targetAmount) * 100)}%`,
+      color: [147, 51, 234],
+    },
+    {
+      label: 'الادخار الشهري المقترح',
+      value: formatCurrency(data.monthlySavings),
+      color: [234, 88, 12],
+    },
+    { label: 'المدة المتوقعة', value: `${data.monthsNeeded} شهر`, color: [220, 38, 38] },
+  ];
+
+  results.forEach((result) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(result.label, 25, yPos + 10);
+
+    doc.setTextColor(result.color[0], result.color[1], result.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(result.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  yPos += 10;
+
+  // Recommendations
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  if (data.recommendations.length > 0) {
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('توصيات ذكية', 20, yPos);
+    yPos += 10;
+
+    data.recommendations.slice(0, 3).forEach((rec, index) => {
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      doc.setFillColor(249, 250, 251);
+      doc.roundedRect(20, yPos, 170, 8, 2, 2, 'F');
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${index + 1}. ${rec.title}`, 25, yPos + 6);
+      doc.setFont('helvetica', 'normal');
+      yPos += 10;
+
+      doc.setFontSize(9);
+      rec.benefits.slice(0, 2).forEach((benefit) => {
+        const lines = doc.splitTextToSize(benefit, 160);
+        doc.text(lines, 30, yPos);
+        yPos += lines.length * 5;
+      });
+
+      yPos += 5;
+    });
+  }
+
+  // Tips
+  yPos += 10;
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(14);
+  doc.text('نصائح مهمة', 20, yPos);
+  yPos += 10;
+
+  const tips = [
+    'احفظ صندوق الطوارئ في حساب منفصل سهل الوصول',
+    'لا تستخدمه إلا للطوارئ الحقيقية فقط',
+    'راجع الصندوق كل 6 أشهر وحدّث المبلغ حسب تغير المصروفات',
+    'ابدأ بهدف صغير (شهر واحد) ثم وسّع تدريجياً',
+  ];
+
+  doc.setFontSize(10);
+  tips.forEach((tip) => {
+    const lines = doc.splitTextToSize(tip, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 3;
+  });
+
+  // Footer
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  doc.save(`acash-emergency-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// ROI CALCULATOR PDF
+// ==========================================
+
+interface ROIReportData {
+  initialInvestment: number;
+  finalValue: number;
+  timePeriod: number;
+  roiPercentage: number;
+  profit: number;
+  annualizedReturn: number;
+  status: string;
+  recommendations: Array<{
+    title: string;
+    description: string;
+    impact: string;
+  }>;
+}
+
+export const generateROIPDF = (data: ROIReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204];
+
+  let yPos = 20;
+
+  // Header
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير العائد على الاستثمار', 105, 32, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // ROI Status
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('نتيجة الاستثمار', 20, yPos);
+  yPos += 10;
+
+  const statusColor = data.profit >= 0 ? [34, 197, 94] : [220, 38, 38];
+  const statusText = data.profit >= 0 ? 'ربح' : 'خسارة';
+
+  doc.setFillColor(statusColor[0], statusColor[1], statusColor[2], 0.1);
+  doc.roundedRect(20, yPos, 170, 30, 5, 5, 'F');
+  doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
+  doc.setFontSize(32);
+  doc.text(statusText, 105, yPos + 20, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos += 40;
+
+  // Main Results
+  doc.setFontSize(14);
+  doc.text('نتائج الاستثمار', 20, yPos);
+  yPos += 10;
+
+  const results = [
+    {
+      label: 'الاستثمار الأولي',
+      value: formatCurrency(data.initialInvestment),
+      color: [59, 130, 246],
+    },
+    { label: 'القيمة النهائية', value: formatCurrency(data.finalValue), color: [147, 51, 234] },
+    {
+      label: 'الربح/الخسارة',
+      value: formatCurrency(Math.abs(data.profit)),
+      color: data.profit >= 0 ? [34, 197, 94] : [220, 38, 38],
+    },
+    {
+      label: 'نسبة العائد',
+      value: `${data.roiPercentage >= 0 ? '+' : ''}${data.roiPercentage.toFixed(2)}%`,
+      color: data.roiPercentage >= 0 ? [34, 197, 94] : [220, 38, 38],
+    },
+    {
+      label: 'العائد السنوي المركب',
+      value: `${data.annualizedReturn >= 0 ? '+' : ''}${data.annualizedReturn.toFixed(2)}%`,
+      color: [234, 88, 12],
+    },
+    { label: 'فترة الاستثمار', value: `${data.timePeriod} سنوات`, color: [107, 114, 128] },
+  ];
+
+  results.forEach((result) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(result.label, 25, yPos + 10);
+
+    doc.setTextColor(result.color[0], result.color[1], result.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(result.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  yPos += 10;
+
+  // Recommendations
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  if (data.recommendations.length > 0) {
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('توصيات استثمارية', 20, yPos);
+    yPos += 10;
+
+    data.recommendations.slice(0, 3).forEach((rec, index) => {
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      doc.setFillColor(249, 250, 251);
+      doc.roundedRect(20, yPos, 170, 8, 2, 2, 'F');
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${index + 1}. ${rec.title}`, 25, yPos + 6);
+      doc.setFont('helvetica', 'normal');
+      yPos += 10;
+
+      doc.setFontSize(9);
+      const lines = doc.splitTextToSize(rec.description, 160);
+      doc.text(lines, 30, yPos);
+      yPos += lines.length * 5 + 8;
+    });
+  }
+
+  // Investment Tips
+  yPos += 10;
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(14);
+  doc.text('نصائح استثمارية', 20, yPos);
+  yPos += 10;
+
+  const tips = [
+    'نوّع محفظتك الاستثمارية لتقليل المخاطر',
+    'راجع أداء استثماراتك بشكل دوري (كل 6 أشهر على الأقل)',
+    'لا تستثمر أموال تحتاجها في المدى القصير',
+    'استثمر على المدى الطويل للاستفادة من الفائدة المركبة',
+  ];
+
+  doc.setFontSize(10);
+  tips.forEach((tip) => {
+    const lines = doc.splitTextToSize(tip, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 3;
+  });
+
+  // Footer
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  doc.save(`acash-roi-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// RETIREMENT CALCULATOR PDF
+// ==========================================
+
+interface RetirementReportData {
+  currentAge: number;
+  retirementAge: number;
+  currentSavings: number;
+  monthlyContribution: number;
+  yearsToRetirement: number;
+  projectedFund: number;
+  monthlyRetirementIncome: number;
+  gap: number;
+  feasibilityScore: number;
+  status: string;
+  recommendations: Array<{
+    title: string;
+    description: string;
+    impact: string;
+  }>;
+}
+
+export const generateRetirementPDF = (data: RetirementReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204];
+
+  let yPos = 20;
+
+  // Header
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير خطة التقاعد', 105, 32, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // Feasibility Score
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('درجة جدوى الخطة', 20, yPos);
+  yPos += 10;
+
+  const scoreColor =
+    data.feasibilityScore >= 80
+      ? [34, 197, 94]
+      : data.feasibilityScore >= 60
+        ? [59, 130, 246]
+        : data.feasibilityScore >= 40
+          ? [234, 179, 8]
+          : [220, 38, 38];
+
+  doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2], 0.1);
+  doc.roundedRect(20, yPos, 170, 30, 5, 5, 'F');
+  doc.setTextColor(scoreColor[0], scoreColor[1], scoreColor[2]);
+  doc.setFontSize(36);
+  doc.text(`${data.feasibilityScore}/100`, 105, yPos + 20, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos += 40;
+
+  // Main Results
+  doc.setFontSize(14);
+  doc.text('ملخص خطة التقاعد', 20, yPos);
+  yPos += 10;
+
+  const results = [
+    { label: 'العمر الحالي', value: `${data.currentAge} سنة`, color: [107, 114, 128] },
+    { label: 'سن التقاعد', value: `${data.retirementAge} سنة`, color: [107, 114, 128] },
+    {
+      label: 'سنوات حتى التقاعد',
+      value: `${data.yearsToRetirement} سنة`,
+      color: [234, 88, 12],
+    },
+    {
+      label: 'المدخرات الحالية',
+      value: formatCurrency(data.currentSavings),
+      color: [34, 197, 94],
+    },
+    {
+      label: 'الادخار الشهري',
+      value: formatCurrency(data.monthlyContribution),
+      color: [59, 130, 246],
+    },
+    {
+      label: 'الرصيد التقاعدي المتوقع',
+      value: formatCurrency(data.projectedFund),
+      color: [147, 51, 234],
+    },
+    {
+      label: 'الدخل الشهري المتوقع',
+      value: formatCurrency(data.monthlyRetirementIncome),
+      color: [34, 197, 94],
+    },
+  ];
+
+  if (data.gap !== 0) {
+    results.push({
+      label: data.gap > 0 ? 'الفجوة التقاعدية' : 'الفائض التقاعدي',
+      value: formatCurrency(Math.abs(data.gap)),
+      color: data.gap > 0 ? [220, 38, 38] : [34, 197, 94],
+    });
+  }
+
+  results.forEach((result) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(result.label, 25, yPos + 10);
+
+    doc.setTextColor(result.color[0], result.color[1], result.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(result.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  yPos += 10;
+
+  // Recommendations
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  if (data.recommendations.length > 0) {
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text('توصيات لتحسين خطة التقاعد', 20, yPos);
+    yPos += 10;
+
+    data.recommendations.slice(0, 3).forEach((rec, index) => {
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      doc.setFillColor(249, 250, 251);
+      doc.roundedRect(20, yPos, 170, 8, 2, 2, 'F');
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${index + 1}. ${rec.title}`, 25, yPos + 6);
+      doc.setFont('helvetica', 'normal');
+      yPos += 10;
+
+      doc.setFontSize(9);
+      const lines = doc.splitTextToSize(rec.description, 160);
+      doc.text(lines, 30, yPos);
+      yPos += lines.length * 5 + 8;
+    });
+  }
+
+  // Retirement Tips
+  yPos += 10;
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(14);
+  doc.text('نصائح للتقاعد المريح', 20, yPos);
+  yPos += 10;
+
+  const tips = [
+    'ابدأ الادخار مبكراً للاستفادة من الفائدة المركبة',
+    'راجع خطة التقاعد سنوياً وعدّلها حسب تغير الظروف',
+    'نوّع مصادر الدخل التقاعدي (مدخرات، استثمارات، عقارات)',
+    'احسب تكاليف الرعاية الصحية ضمن خطة التقاعد',
+  ];
+
+  doc.setFontSize(10);
+  tips.forEach((tip) => {
+    const lines = doc.splitTextToSize(tip, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 3;
+  });
+
+  // Footer
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  doc.save(`acash-retirement-${new Date().getTime()}.pdf`);
+};
+
+// ==========================================
+// ZAKAT CALCULATOR PDF
+// ==========================================
+
+interface ZakatReportData {
+  cash: number;
+  gold: number;
+  silver: number;
+  investments: number;
+  businessAssets: number;
+  liabilities: number;
+  totalWealth: number;
+  zakatAmount: number;
+  nisab: number;
+}
+
+export const generateZakatPDF = (data: ZakatReportData) => {
+  const doc = new jsPDF();
+  const brandColor = [0, 102, 204];
+
+  let yPos = 20;
+
+  // Header
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 40, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(24);
+  doc.text('Acash.ai', 105, 20, { align: 'center' });
+
+  doc.setFontSize(16);
+  doc.text('تقرير حساب الزكاة', 105, 32, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos = 50;
+
+  // Report Date
+  doc.setFontSize(10);
+  doc.setTextColor(128, 128, 128);
+  doc.text(`تاريخ التقرير: ${new Date().toLocaleDateString('ar-SA')}`, 20, yPos);
+  yPos += 15;
+
+  // Zakat Amount
+  doc.setFontSize(16);
+  doc.setTextColor(0, 0, 0);
+  doc.text('مبلغ الزكاة الواجب', 20, yPos);
+  yPos += 10;
+
+  doc.setFillColor(34, 197, 94, 0.1);
+  doc.roundedRect(20, yPos, 170, 35, 5, 5, 'F');
+  doc.setTextColor(34, 197, 94);
+  doc.setFontSize(40);
+  doc.text(formatCurrency(data.zakatAmount), 105, yPos + 22, { align: 'center' });
+
+  doc.setTextColor(0, 0, 0);
+  yPos += 45;
+
+  // Wealth Breakdown
+  doc.setFontSize(14);
+  doc.text('تفاصيل الثروة', 20, yPos);
+  yPos += 10;
+
+  const breakdown = [
+    { label: 'النقد والسندات', value: formatCurrency(data.cash), color: [59, 130, 246] },
+    { label: 'قيمة الذهب', value: formatCurrency(data.gold), color: [234, 179, 8] },
+    { label: 'قيمة الفضة', value: formatCurrency(data.silver), color: [147, 197, 253] },
+    { label: 'الاستثمارات', value: formatCurrency(data.investments), color: [147, 51, 234] },
+    { label: 'أصول العمل', value: formatCurrency(data.businessAssets), color: [34, 197, 94] },
+    { label: 'الديون المستحقة', value: formatCurrency(data.liabilities), color: [220, 38, 38] },
+  ];
+
+  breakdown.forEach((item) => {
+    doc.setFillColor(240, 240, 240);
+    doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(item.label, 25, yPos + 10);
+
+    doc.setTextColor(item.color[0], item.color[1], item.color[2]);
+    doc.setFont('helvetica', 'bold');
+    doc.text(item.value, 185, yPos + 10, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 18;
+  });
+
+  yPos += 5;
+
+  // Total Wealth
+  doc.setFillColor(59, 130, 246, 0.1);
+  doc.roundedRect(20, yPos, 170, 15, 3, 3, 'F');
+
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont('helvetica', 'bold');
+  doc.text('إجمالي الثروة', 25, yPos + 10);
+
+  doc.setTextColor(59, 130, 246);
+  doc.text(formatCurrency(data.totalWealth), 185, yPos + 10, { align: 'right' });
+  doc.setFont('helvetica', 'normal');
+
+  yPos += 25;
+
+  // Zakat Details
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+  doc.text('تفاصيل الحساب', 20, yPos);
+  yPos += 10;
+
+  const details = [
+    { label: 'النصاب (85 جرام ذهب)', value: formatCurrency(data.nisab) },
+    { label: 'نسبة الزكاة', value: '2.5%' },
+    {
+      label: 'حالة الزكاة',
+      value: data.totalWealth >= data.nisab ? 'واجبة' : 'غير واجبة',
+    },
+  ];
+
+  details.forEach((item) => {
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(item.label, 25, yPos);
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.text(item.value, 185, yPos, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+
+    yPos += 8;
+  });
+
+  yPos += 15;
+
+  // New page if needed
+  if (yPos > 220) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  // Zakat Information
+  doc.setFontSize(14);
+  doc.text('مصارف الزكاة الثمانية', 20, yPos);
+  yPos += 10;
+
+  const masarif = [
+    'الفقراء (من لا يملك كفايته)',
+    'المساكين (من لا يكفيه ما يملك)',
+    'العاملون عليها (جباة الزكاة)',
+    'المؤلفة قلوبهم (لتأليف قلوبهم على الإسلام)',
+    'في الرقاب (تحرير العبيد)',
+    'الغارمون (المدينون)',
+    'في سبيل الله (الجهاد والدعوة)',
+    'ابن السبيل (المسافر المحتاج)',
+  ];
+
+  doc.setFontSize(10);
+  masarif.forEach((masraf, index) => {
+    doc.text(`${index + 1}. ${masraf}`, 25, yPos);
+    yPos += 6;
+  });
+
+  yPos += 10;
+
+  // Important Notes
+  doc.setFontSize(14);
+  doc.text('شروط وجوب الزكاة', 20, yPos);
+  yPos += 10;
+
+  const shurut = [
+    'بلوغ النصاب (85 جرام ذهب أو ما يعادله)',
+    'حولان الحول (مرور سنة هجرية كاملة)',
+    'الملك التام للمال',
+    'كون المال نامياً أو قابلاً للنماء',
+    'الفضل عن الحوائج الأصلية',
+  ];
+
+  doc.setFontSize(10);
+  shurut.forEach((shart) => {
+    const lines = doc.splitTextToSize(`- ${shart}`, 165);
+    doc.text(lines, 25, yPos);
+    yPos += lines.length * 5 + 2;
+  });
+
+  // Footer
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+    doc.rect(0, 282, 210, 15, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Powered by Acash.ai - Your Financial Intelligence Partner', 105, 290, {
+      align: 'center',
+    });
+  }
+
+  doc.save(`acash-zakat-${new Date().getTime()}.pdf`);
+};

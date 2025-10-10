@@ -1,0 +1,158 @@
+{
+  "common": {
+    "appName": "Acash.ai",
+    "welcome": "مرحباً",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "success": "تم بنجاح",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "update": "تحديث",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "submit": "إرسال",
+    "confirm": "تأكيد",
+    "close": "إغلاق"
+  },
+  "home": {
+    "hero": {
+      "title": "خطط لمستقبلك المالي",
+      "titleHighlight": "بذكاء",
+      "subtitle": "أدوات متقدمة مدعومة بالذكاء الاصطناعي لتساعدك على تحقيق أهدافك المالية بسهولة وثقة",
+      "ctaPrimary": "ابدأ مجاناً",
+      "ctaSecondary": "الأدوات المجانية",
+      "freeBadge": "مجاني 100٪ • لا حاجة لبطاقة ائتمان"
+    },
+    "features": {
+      "title": "لماذا Acash.ai؟",
+      "subtitle": "منصة شاملة لإدارة أموالك بسهولة وفعالية",
+      "calculators": {
+        "title": "حاسبات مالية متقدمة",
+        "description": "8 أدوات مجانية لإدارة ميزانيتك"
+      },
+      "reports": {
+        "title": "تقارير تفصيلية",
+        "description": "تحليلات شاملة لوضعك المالي"
+      },
+      "security": {
+        "title": "آمن ومشفّر",
+        "description": "بياناتك محمية بأعلى معايير الأمان"
+      },
+      "speed": {
+        "title": "سريع وسهل",
+        "description": "نتائج فورية في ثوانٍ معدودة"
+      }
+    },
+    "cta": {
+      "title": "جاهز لتحسين وضعك المالي؟",
+      "subtitle": "انضم لآلاف المستخدمين الذين حققوا أهدافهم المالية",
+      "button": "ابدأ الآن مجاناً"
+    }
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "tools": "الأدوات",
+    "pricing": "الأسعار",
+    "about": "عن التطبيق",
+    "contact": "تواصل معنا",
+    "login": "تسجيل الدخول",
+    "register": "التسجيل",
+    "logout": "تسجيل الخروج",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات"
+  },
+  "auth": {
+    "loginTitle": "تسجيل الدخول",
+    "registerTitle": "إنشاء حساب جديد",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "displayName": "الاسم الكامل",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "rememberMe": "تذكرني",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "sendResetLink": "إرسال رابط الإعادة",
+    "backToLogin": "العودة لتسجيل الدخول",
+    "emailSent": "تم إرسال الرابط للبريد الإلكتروني",
+    "invalidCredentials": "بيانات الدخول غير صحيحة",
+    "accountCreated": "تم إنشاء الحساب بنجاح"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً {name}",
+    "financialHealth": "الصحة المالية",
+    "healthScore": "درجة الصحة المالية",
+    "monthlyIncome": "الدخل الشهري",
+    "monthlyExpenses": "المصروفات الشهرية",
+    "totalSavings": "المدخرات",
+    "totalDebts": "الديون",
+    "netIncome": "صافي الدخل",
+    "netWorth": "صافي الثروة",
+    "activeGoals": "الأهداف النشطة",
+    "quickActions": "إجراءات سريعة",
+    "recommendations": "توصيات",
+    "aiAdvisor": "المستشار الذكي"
+  },
+  "tools": {
+    "title": "الأدوات المالية",
+    "debtCalculator": "حاسبة الديون",
+    "budgetPlanner": "مخطط الميزانية",
+    "investmentCalculator": "حاسبة الاستثمار",
+    "emergencyFund": "صندوق الطوارئ",
+    "retirementPlanner": "مخطط التقاعد",
+    "goalTracker": "متتبع الأهداف"
+  },
+  "debt": {
+    "title": "حاسبة سداد الديون",
+    "totalDebt": "إجمالي الدين",
+    "interestRate": "نسبة الفائدة السنوية",
+    "monthlyPayment": "الدفعة الشهرية",
+    "debtType": "نوع الدين",
+    "targetMonths": "الفترة المستهدفة (أشهر)",
+    "extraPayment": "دفعة إضافية شهرية",
+    "calculate": "احسب",
+    "results": "النتائج",
+    "payoffTime": "مدة السداد",
+    "totalPaid": "إجمالي المدفوع",
+    "totalInterest": "إجمالي الفوائد",
+    "recommendations": "التوصيات",
+    "years": "{count, plural, =1 {سنة} other {سنوات}}",
+    "months": "{count, plural, =1 {شهر} other {أشهر}}"
+  },
+  "errors": {
+    "generic": "حدث خطأ غير متوقع",
+    "network": "خطأ في الاتصال بالشبكة",
+    "notFound": "الصفحة غير موجودة",
+    "unauthorized": "غير مصرح لك بالوصول",
+    "serverError": "خطأ في الخادم",
+    "validation": "خطأ في التحقق من البيانات",
+    "required": "هذا الحقل مطلوب",
+    "invalidEmail": "البريد الإلكتروني غير صحيح",
+    "passwordTooShort": "كلمة المرور قصيرة جداً",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين"
+  },
+  "success": {
+    "saved": "تم الحفظ بنجاح",
+    "updated": "تم التحديث بنجاح",
+    "deleted": "تم الحذف بنجاح",
+    "created": "تم الإنشاء بنجاح",
+    "sent": "تم الإرسال بنجاح"
+  },
+  "premium": {
+    "title": "الاشتراك المميز",
+    "upgrade": "ترقية للنسخة المميزة",
+    "features": "المزايا",
+    "pricing": "الأسعار",
+    "subscribe": "اشترك الآن",
+    "freeTier": "النسخة المجانية",
+    "premiumTier": "النسخة المميزة",
+    "enterpriseTier": "نسخة الأعمال"
+  }
+}

@@ -1,0 +1,37 @@
+ ⚠ Linting is disabled.
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+
+
+Source path: C:\acash.ai\app\globals.css
+Setting up new context...
+Finding changed files: 9.255ms
+Reading changed files: 247.235ms
+Sorting candidates: 7.077ms
+Generate rules: 94.535ms
+Build stylesheet: 2.184ms
+Potential classes:  9921
+Active contexts:  1
+JIT TOTAL: 524.882ms
+
+
+ ✓ Compiled successfully in 35.5s
+   Checking validity of types ...
+Failed to compile.
+
+./lib/firebase/auth-advanced.ts:267:10
+Type error: This expression is not callable.
+  Type '{ uid: string; email: string; emailVerified: boolean; displayName: string; createdAt: Date; updatedAt: Date; photoURL?: string | undefined; lastLoginAt?: Date | undefined; preferences?: { ...; } | undefined; }' has no call signatures.
+
+[0m [90m 265 |[39m
+ [90m 266 |[39m   [36mconst[39m userData [33m=[39m [36mawait[39m getUser(auth[33m.[39mcurrentUser[33m.[39muid)[33m;[39m
+[31m[1m>[22m[39m[90m 267 |[39m   [36mreturn[39m userData[33m?[39m[33m.[39m(subscriptionTier [36mas[39m any) [33m||[39m [32m'free'[39m[33m;[39m
+ [90m     |[39m          [31m[1m^[22m[39m
+ [90m 268 |[39m }
+ [90m 269 |[39m
+ [90m 270 |[39m [36mexport[39m [36masync[39m [36mfunction[39m isPremiumUser()[33m:[39m [33mPromise[39m[33m<[39m[33mboolean[39m[33m>[39m {[0m
+Next.js build worker exited with code: 1 and signal: null
